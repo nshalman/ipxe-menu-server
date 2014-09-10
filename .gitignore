@@ -1,0 +1,4 @@
+*.lkrn
+*.pxe
+*.kpxe
+node_modules/

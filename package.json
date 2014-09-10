@@ -1,0 +1,19 @@
+{
+    "name": "ipxe-menu-server"
+  , "description": "Serve ipxe menu"
+  , "version": "0.1.0"
+  , "bin": {
+    "image-server": "./server.js"
+  }
+  , "dependencies": {
+      "restify": "~2.0.0"
+      , "dashdash": "~1.6.0"
+  }
+  , "scripts": {
+      "start": "node server.js"
+  }
+  ,"engine" : {
+      "node" : ">=0.10.0"
+  }
+  ,"author" : {"name" : "Nahum Shalman", "email" : "" }
+}
