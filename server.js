@@ -69,20 +69,38 @@ if (opts.port){
 	serve_port = opts.port;
 }
 
+function menu_entry(dirname) {
+	var arg_file = path.join(serve_dir, dirname, '/args');
+	var desc_file = path.join(serve_dir, dirname, '/desc');
+	var entry = "";
+	try { entry += " " + fs.readFileSync(desc_file);}
+	catch (e) {}
+	entry += 'kernel ';
+	entry += dirname;
+	entry += '/kernel';
+	try { entry += " " + fs.readFileSync(arg_file);}
+	catch (e) {}
+	entry += 'initrd ';
+	entry += dirname;
+	entry += '/initrd';
+	entry += '\n\n';
+	return entry
+}
+
 function menu(req, res, next) {
 	var everything = [];
 	fs.readdir(serve_dir, function (err, dirlist) {
 		if (err) {
 			res.send(500, 'Internal Server Error');
-			return;
+			return next();
 		}
 		else {
+			var menu = "";
 			for (entry in dirlist) {
-				if (fs.existsSync(path.join(serve_dir, dirlist[entry] + '/desc'))) {
-					everything.push(dirlist[entry]);
-				};
+				menu += menu_entry(dirlist[entry]);
 			};
-			res.send(everything);
+			res.contentType = "text";
+			res.send(menu);
 			req.log.info("served up /menu");
 		};
 	});
